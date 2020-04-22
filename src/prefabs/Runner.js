@@ -1,4 +1,4 @@
-class Runner extends Phaser.GameObjects.Sprite {
+class Player extends Phaser.GameObjects.Sprite {
     constructor(scene, x, y, texture, frame) {
         super(scene, x, y, texture, frame);
 
@@ -11,18 +11,18 @@ class Runner extends Phaser.GameObjects.Sprite {
 
         // horizontal motion
         if (keyRIGHT.isDown) { // && this.x >= 47) { border checking
-            this.x += 5;
+            this.x += game.settings.playerSpeed;
             this.setScale(-1, 1);
         } else if (keyLEFT.isDown) { // && this.x <= 578) {
-            this.x -= 5;  
+            this.x -= game.settings.playerSpeed;  
             this.setScale(1, 1);
         }
 
         // vertical motion
         if (keyUP.isDown) {
-            this.y -= 3;
+            this.y -= game.settings.playerSpeed;
         } else if (keyDOWN.isDown) {
-            this.y += 3; // temporary?
+            this.y += game.settings.playerSpeed; // temporary?
             //slide
         }
 

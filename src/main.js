@@ -10,7 +10,7 @@ let game = new Phaser.Game(config);
 
 // define game settings
 game.settings = {
-
+    playerSpeed: 2,
 };
 
 // reserve keyboard variables
