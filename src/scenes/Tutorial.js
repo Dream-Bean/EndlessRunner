@@ -1,9 +1,9 @@
-class Menu extends Phaser.Scene {
+class Tutorial extends Phaser.Scene {
     constructor() {
-        super("menuScene");
+        super("tutorialScene");
     }
 
-    // load menu assets
+    // load tutorial assets
     preload() {
 
     }
@@ -16,7 +16,7 @@ class Menu extends Phaser.Scene {
         this.add.rectangle(1248, 0, 32, 720, 0xFF00FF).setOrigin(0, 0); // right
 
         // text display
-        let menuConfig = {
+        let tutorialConfig = {
             fontFamily: 'Courier',
             fontSize: '28px',
             backgroundColor: '#FACADE',
@@ -29,27 +29,21 @@ class Menu extends Phaser.Scene {
             fixedWidth: 0
         }
 
-        // show menu text
+        // show tutorial text
         let centerX = game.config.width / 2;
         let centerY = game.config.height / 2;
         let textSpacer = 64;
-        this.add.text(centerX, centerY - 2 * textSpacer, 'SalaryMan', menuConfig).setScale(1.5, 1.5).setOrigin(0.5);
-        this.add.text(centerX, centerY, 'Press (P) To Start Playing!', menuConfig).setOrigin(0.5);
-        this.add.text(centerX, centerY + textSpacer, 'Press (T) For Tutorial!', menuConfig).setOrigin(0.5);
+        this.add.text(centerX, centerY - 2 * textSpacer, 'Tutorial', tutorialConfig).setScale(1.5, 1.5).setOrigin(0.5);
+        this.add.text(centerX, centerY, 'Press (P) To Start Playing!', tutorialConfig).setOrigin(0.5);
 
         // define keys
         keyP = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.P);
-        keyT = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.T);
     }
 
     update() {
         if (Phaser.Input.Keyboard.JustDown(keyP)) {
             //this.sound.play('sfx_select');
             this.scene.start("playScene");
-        }
-        if (Phaser.Input.Keyboard.JustDown(keyT)) {
-            //this.sound.play('sfx_select');
-            this.scene.start("tutorialScene");
         }
     }
 }

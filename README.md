@@ -10,3 +10,8 @@ Commit #1:
 Commit #2:
     Allowed direction flipping based on movement. Created some
     backbone for the prefabs.
+
+Commit #3:
+    Added tutorial scene. Edited controls and scene linking.
+    Added assets, and progressed on the runner prefab -
+    working on conditions and movement.
