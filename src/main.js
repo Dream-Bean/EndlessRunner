@@ -3,6 +3,15 @@ let config = {
     type: Phaser.CANVAS,
     width: 1280,
     height: 720,
+    /*
+    physics: {
+        default: 'arcade',
+        arcade: {
+            gravity: {y: 500},
+            debug: false,
+        },
+    },      
+    */
     scene: [Menu, Tutorial, Play],
 };
 
@@ -16,4 +25,4 @@ game.settings = {
 };
 
 // reserve keyboard variables
-let keyUP, keyLEFT, keyRIGHT, keyDOWN, keyF, keyT, keyM , keyP;
+let keyUP, keyLEFT, keyRIGHT, keyDOWN, keyF, keyT, keyM , keyP, keyR;

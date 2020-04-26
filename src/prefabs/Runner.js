@@ -5,45 +5,61 @@ class Player extends Phaser.GameObjects.Sprite {
         scene.add.existing(this);   // add object to existing scene, displayList, updateList
         this.isJumping = false;
         this.isSliding = false;
+        this.weight = 0;
     }
 
     update() {
-
-        // gravity
-        if (this.y <= game.settings.platformHeight) {
-            this.y += 3;
+        // player motion
+        if (Phaser.Input.Keyboard.JustDown(keyUP) && this.y > 440 && this.y < 700) {
+            this.y -= 50;
+            //this.isJumping = true;
+        } else if (Phaser.Input.Keyboard.JustDown(keyDOWN) && this.y > 420 && this.y < 615) {
+            this.y += 50; // temporary?
+            //this.isSliding = true;
+            //this.setScale(0.5,0.5).setOrigin(0,0);
+            //slide
         }
+        if (Phaser.Input.Keyboard.JustDown(keyLEFT)) {
+            this.x -= 40;
+        }
+        
 
+
+
+        /*
         // kill zone
         if (this.x <= game.settings.killZone) {
             this.x += game.settings.playerSpeed;
         }
 
-        //if (game.settings.platformHeight + 50 <= this.y <= game.settings.platformHeight - 50) {
-        //    this.isJumping = false;
-        //}
+        // gravity and jumping
+        if (this.y <= game.settings.platformHeight) {
+            this.y += 3;
+        }
+        if (this.y > game.settings.platformHeight) {
+            this.isJumping = false;
+        }
 
-        // if player y position == resting
-            // isJumping = false
-
+        // sliding
+        if (this.y >= game.settings.platformHeight) {
+            //
+        }
+        if (this.y < game.settings.platformHeight) {
+            this.isSliding = false;
+        }
 
         // player motion
-        if (keyRIGHT.isDown) { // && this.x >= 47) { border checking
-            this.x += game.settings.playerSpeed;
-            this.setScale(-1, 1);
-            this.isSliding = false;
-            this.isJumping = false;
-        } else if (keyLEFT.isDown) { // && this.x <= 578) {
-            this.x -= game.settings.playerSpeed;  
-            this.setScale(1, 1);
-            this.isSliding = false;
-            this.isJumping = false;
-        } else if (keyUP.isDown && this.isJumping == false) {
-            this.y -= 100;
+        //this.x += game.settings.playerSpeed;
+        if (keyUP.isDown && this.isJumping == false) {
+            this.y -= 150;
+            this.isJumping = true;
         } else if (keyDOWN.isDown && this.isSliding == false) {
             this.y += 50; // temporary?
+            this.isSliding = true;
+            //this.setScale(0.5,0.5).setOrigin(0,0);
             //slide
         }
+        */
 
         // checkpoint interaction
         if (Phaser.Input.Keyboard.JustDown(keyF)) {

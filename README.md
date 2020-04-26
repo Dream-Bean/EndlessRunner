@@ -15,3 +15,9 @@ Commit #3:
     Added tutorial scene. Edited controls and scene linking.
     Added assets, and progressed on the runner prefab -
     working on conditions and movement.
+
+Commit #4:
+    Reworking the standard platformer to a better scoped game
+    for the time frame. Changed the bootleg physics to a more
+    simplistic mechanic based game via movement and map
+    orientation.
