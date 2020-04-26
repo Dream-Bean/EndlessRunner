@@ -28,3 +28,10 @@ Commit #5:
     Beer awards points now. Car cycles through screen and bumps
     player backward. Player has vertical/downward motion as well
     as temporarily left/right. Huge patch.
+
+Commit #6:
+    Expanding on commit #5 - making a playtestable version of the
+    game. Missing many mechanics and assets, but its to get a feel
+    of the game and direction. Also to get feedback. Notable changes
+    are car rng speed, layout, math of dimensions, score, and some
+    hot fixes.

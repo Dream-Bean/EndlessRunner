@@ -19,8 +19,9 @@ let game = new Phaser.Game(config);
 
 // define game settings
 game.settings = {
-    carSpeed: 4,
-    platformHeight: 555,
+    cpSpeed: 6,
+    beerSpeed: 3,
+    weight: 0,
     killZone: 1210 - 120,
 };
 

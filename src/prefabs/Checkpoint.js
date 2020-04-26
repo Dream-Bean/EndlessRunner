@@ -1,4 +1,4 @@
-class Bathroom extends Phaser.GameObjects.Sprite {
+class Checkpoint extends Phaser.GameObjects.Sprite {
     constructor(scene, x, y, texture, frame) {
         super(scene, x, y, texture, frame);
 
@@ -9,17 +9,11 @@ class Bathroom extends Phaser.GameObjects.Sprite {
 
     update() {
         // move spaceship left
-        this.x -= game.settings.spaceshipSpeed;
+        this.x += game.settings.cpSpeed
 
-        // wraparound screen bounds
-        if (this.x >= 0 + this.width) {
-            this.x = game.config.width;
-        }
     }
 
-    /*
     reset() {
-        this.x = game.config.width;
+        this.x = 0;
     }
-    */
 }

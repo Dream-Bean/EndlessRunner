@@ -33,8 +33,10 @@ class Tutorial extends Phaser.Scene {
         let centerX = game.config.width / 2;
         let centerY = game.config.height / 2;
         let textSpacer = 64;
-        this.add.text(centerX, centerY - 2 * textSpacer, 'Tutorial', tutorialConfig).setScale(1.5, 1.5).setOrigin(0.5);
-        this.add.text(centerX, centerY, 'Press (P) To Start Playing!', tutorialConfig).setOrigin(0.5);
+        this.add.text(centerX, centerY - 2*textSpacer, 'Tutorial', tutorialConfig).setScale(1.5, 1.5).setOrigin(0.5);
+        this.add.text(centerX, centerY, 'Controls: ← → ↑ ↓', tutorialConfig).setOrigin(0.5);
+        this.add.text(centerX, centerY + textSpacer, 'Dodge cars and collect beers, but more\n importantly do not get caught by the cops', tutorialConfig).setOrigin(0.5);
+        this.add.text(centerX, centerY + 2*textSpacer, 'Press (P) To Start Playing!', tutorialConfig).setOrigin(0.5);
 
         // define keys
         keyP = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.P);

@@ -6,14 +6,13 @@ class Player extends Phaser.GameObjects.Sprite {
         this.positionTracker = 0;
         this.isMid = false;
         this.isBot = false;
-        this.hitbox;
-        this.weight = 0;
+        //this.hitbox;
     }
 
     update() {
         // player hitbox
-        this.hitbox = this.y;
-        console.log(this.hitbox);
+        //this.hitbox = this.y;
+        //console.log(this.hitbox);
 
         // player motion
         if (Phaser.Input.Keyboard.JustDown(keyUP) && this.positionTracker != 1) {
@@ -27,18 +26,15 @@ class Player extends Phaser.GameObjects.Sprite {
 
         // test movement only ←→
         if (Phaser.Input.Keyboard.JustDown(keyLEFT)) {
-            this.x -= 100;
+            this.x -= 50;
         }
         if (Phaser.Input.Keyboard.JustDown(keyRIGHT)) {
-            this.x += 100;
+            this.x += 50;
         }
-
-        //have a constant height checker and use that for the collission box
-
 
         // checkpoint interaction
-        if (Phaser.Input.Keyboard.JustDown(keyF)) {
+        //if (Phaser.Input.Keyboard.JustDown(keyF)) {
             //weight drop and point gain
-        }
+        //}
     }
 }

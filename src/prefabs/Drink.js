@@ -6,12 +6,12 @@ class Beer extends Phaser.GameObjects.Sprite {
     }
 
     update() {
-        // move spaceship left
-        this.x += game.settings.spaceshipSpeed;
+        // move drink left
+        this.x += game.settings.beerSpeed
 
         // wraparound screen bounds
-        if (this.x >= 0 + this.width) {
-            this.x = game.config.width;
+        if (this.x > game.config.width) {
+            this.x = -100;
         }
     }
 
