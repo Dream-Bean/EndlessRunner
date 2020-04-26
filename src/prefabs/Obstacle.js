@@ -7,17 +7,17 @@ class Obstacle extends Phaser.GameObjects.Sprite {
 
     update() {
         // move spaceship left
-        this.x += game.settings.spaceshipSpeed;
+        this.x += game.settings.carSpeed
 
         // wraparound screen bounds
-        if (this.x >= 0 + this.width) {
-            this.x = game.config.width;
+        if (this.x > game.config.width) {
+            this.x = -100;
         }
     }
 
     /*
     reset() {
-        this.x = game.config.width;
+        this.x = 20;
     }
     */
 }

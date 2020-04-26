@@ -6,25 +6,29 @@ class Play extends Phaser.Scene {
     preload() {
         this.load.image('runner', './assets/runner.png');
         this.load.image('beer', './assets/beer.png');
-        this.load.image('tempbg', './assets/newbg.png');
+        this.load.image('tempbg', './assets/newestbg.png');
         this.load.image('car', './assets/car.png');
+        this.load.image('cop', './assets/cop.png');
     }
 
     create() {
         // place tile sprite
-        this.map = this.add.tileSprite(0, 0, 1280, 720, 'tempbg').setScale(5, 4).setOrigin(0, 0);
+        this.city = this.add.tileSprite(0, 0, 1280, 288, 'tempbg').setScale(1, 1).setOrigin(0, 0);
+        //this.add.rectangle(0, 0, 1280, 288, 0x000FFF).setOrigin(0, 0); // left
 
-        // borders
-        this.add.rectangle(0, 0, 1280, 16, 0xFF0000).setOrigin(0, 0); // left
-        this.add.rectangle(0, 705, 1280, 16, 0xFF0000).setOrigin(0, 0); // bottom
-        this.add.rectangle(0, 0, 16, 720, 0xFF0000).setOrigin(0, 0); // top
-        this.add.rectangle(1265, 0, 16, 720, 0xFF0000).setOrigin(0, 0); // right
         // tracks
-        this.add.rectangle(0, 655, 1280, 10, 0xFF0000).setOrigin(0, 0); 
-        this.add.rectangle(0, 605, 1280, 10, 0xFF0000).setOrigin(0, 0); 
-        this.add.rectangle(0, 555, 1280, 10, 0xFF0000).setOrigin(0, 0);
-        this.add.rectangle(0, 505, 1280, 10, 0xFF0000).setOrigin(0, 0);
-        this.add.rectangle(0, 455, 1280, 10, 0xFF0000).setOrigin(0, 0);
+        this.add.rectangle(0, 288, 1280, 5, 0xFFFFFF).setOrigin(0, 0);
+        this.add.rectangle(0, 288 + 144, 1280, 5, 0xFFFFFF).setOrigin(0, 0);
+        this.add.rectangle(0, 288 + 2*144, 1280, 5, 0xFFFFFF).setOrigin(0, 0);
+        // cops
+        this.add.sprite(1210, 288 + 15, 'cop').setScale(1, 1).setScale(0.75,0.75).setOrigin(0, 0);
+        this.add.sprite(1210, 288 + 144, 'cop').setScale(1, 1).setScale(0.75, 0.75).setOrigin(0, 0);
+        this.add.sprite(1210, 288 + 2*144, 'cop').setScale(1, 1).setScale(0.75, 0.75).setOrigin(0, 0);
+        // hitbox notes 
+        this.add.rectangle(800, 216 + 81, 25, 25, 0xFFFFFF).setOrigin(0, 0);
+        this.add.rectangle(800, 360 + 81, 25, 25, 0xFFFFFF).setOrigin(0, 0);
+        this.add.rectangle(800, 504 + 81, 25, 25, 0xFFFFFF).setOrigin(0, 0);
+
         
         // define keyboard keys
         keyUP = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.UP);
@@ -36,11 +40,11 @@ class Play extends Phaser.Scene {
         keyR = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.R);
 
         // add player
-        this.player = new Player(this, game.config.width/2, 475, 'runner').setOrigin(0, 0);
+        this.player = new Player(this, 1000, 2*144 + 72, 'runner').setSize(100,100).setOrigin(0, 0); // .setSize(x,y) and .setScale
         // add beer
-        this.beer = new Beer(this, game.config.width / 2 - 45, 445, 'beer').setScale(0.3, 0.3).setOrigin(0, 0);
+        this.beer = new Beer(this, 790, 360 + 75, 'beer').setScale(0.3, 0.3).setSize(20, 20).setOrigin(0, 0);
         // add obstacle
-        this.car = new Obstacle(this, game.config.width / 4, 555, 'car').setOrigin(0, 0); //scale doesnt change hitbox
+        this.car = new Obstacle(this, 490, 288 + 2*144 - 50, 'car').setOrigin(0, 0); //scale doesnt change hitbox
 
         //this.player.physics;
         //this.arcade.setBounds(0, 0, game.config.width, game.config.height);
@@ -48,6 +52,8 @@ class Play extends Phaser.Scene {
 
         // conditions
         this.gameOver = false;
+        // score
+        this.points = 0;
 
         this.playConfig = {
             fontFamily: 'Courier',
@@ -61,22 +67,27 @@ class Play extends Phaser.Scene {
             },
             fixedWidth: 0
         }
+        this.score = this.add.text(69, 54, this.points, this.playConfig);
 
         this.centerX = game.config.width / 2;
         this.centerY = game.config.height / 2;
         this.textSpacer = 64;
-        
+
+        // borders
+        this.add.rectangle(0, 0, 1280, 5, 0xFF00FF).setOrigin(0, 0); // left
+        this.add.rectangle(0, 715, 1280, 5, 0xFF00FF).setOrigin(0, 0); // bottom
+        this.add.rectangle(0, 0, 5, 720, 0xFF00FF).setOrigin(0, 0); // top
+        this.add.rectangle(1275, 0, 5, 720, 0xFF00FF).setOrigin(0, 0); // right    
     }
 
     update() {
-        /*
+        // Killed by edge
         if (this.player.x >= game.settings.killZone) {
             this.player.alpha = 0;
             this.gameOver = true;
         }
-        */
 
-        // Game Over and Scene Swap
+        // Game over and scene swap
         if (this.gameOver == true) {
             this.add.text(this.centerX, this.centerY, 'Press (M) To Return To Menu!', this.playConfig).setOrigin(0.5);
             this.add.text(this.centerX, this.centerY - this.textSpacer, 'Press (R) To Restart!', this.playConfig).setOrigin(0.5);
@@ -88,22 +99,21 @@ class Play extends Phaser.Scene {
             }
         }
 
-        // check collisions
+        // Check collisions
         if (this.checkCollision(this.player, this.car)) {
-            this.playerKilled(this.player);
+            this.playerHit(this.player, this.car);
         }
         if (this.checkCollision(this.player, this.beer)) {
-            
+            this.playerDrink(this.beer);
         }
 
 
         if (!this.gameOver) {
             this.player.update();
+            this.car.update();
         }
 
-    
-
-
+        this.city.tilePositionX -= 4;
     }
 
     // Axis-Aligned Bounding Boxes checking
@@ -118,21 +128,24 @@ class Play extends Phaser.Scene {
         }
     }
 
-    playerKilled(player) {
-        player.alpha = 0;
+    // player-car reaction
+    playerHit(player) {
+        player.x += 100;
+        //car.reset();
         //kill animation and sound
-        this.gameOver = true;
     }
 
-    // detector for drinks
-    playerBAL(player) {
-        // drunkenness
-        // point tally
+    // player-drink reaction
+    playerDrink(drink) {
+        this.points++;
+        this.score.text = this.points;
+        drink.reset();
+        // add drunkenness mechanic later
     }
 
     // point turn-in + alcohol relief
     checkpointReached(player, checkpoint) {
-        
+        //
     }
     
 }

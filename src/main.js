@@ -19,9 +19,9 @@ let game = new Phaser.Game(config);
 
 // define game settings
 game.settings = {
-    playerSpeed: 2,
+    carSpeed: 4,
     platformHeight: 555,
-    killZone: 1210,
+    killZone: 1210 - 120,
 };
 
 // reserve keyboard variables

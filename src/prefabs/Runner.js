@@ -3,63 +3,38 @@ class Player extends Phaser.GameObjects.Sprite {
         super(scene, x, y, texture, frame);
 
         scene.add.existing(this);   // add object to existing scene, displayList, updateList
-        this.isJumping = false;
-        this.isSliding = false;
+        this.positionTracker = 0;
+        this.isMid = false;
+        this.isBot = false;
+        this.hitbox;
         this.weight = 0;
     }
 
     update() {
+        // player hitbox
+        this.hitbox = this.y;
+        console.log(this.hitbox);
+
         // player motion
-        if (Phaser.Input.Keyboard.JustDown(keyUP) && this.y > 440 && this.y < 700) {
-            this.y -= 50;
-            //this.isJumping = true;
-        } else if (Phaser.Input.Keyboard.JustDown(keyDOWN) && this.y > 420 && this.y < 615) {
-            this.y += 50; // temporary?
-            //this.isSliding = true;
-            //this.setScale(0.5,0.5).setOrigin(0,0);
-            //slide
+        if (Phaser.Input.Keyboard.JustDown(keyUP) && this.positionTracker != 1) {
+            this.y -= 144;
+            this.positionTracker++;
         }
+        if (Phaser.Input.Keyboard.JustDown(keyDOWN) && this.positionTracker != -1) {
+            this.y += 144;
+            this.positionTracker--;
+        }
+
+        // test movement only ←→
         if (Phaser.Input.Keyboard.JustDown(keyLEFT)) {
-            this.x -= 40;
+            this.x -= 100;
         }
-        
-
-
-
-        /*
-        // kill zone
-        if (this.x <= game.settings.killZone) {
-            this.x += game.settings.playerSpeed;
+        if (Phaser.Input.Keyboard.JustDown(keyRIGHT)) {
+            this.x += 100;
         }
 
-        // gravity and jumping
-        if (this.y <= game.settings.platformHeight) {
-            this.y += 3;
-        }
-        if (this.y > game.settings.platformHeight) {
-            this.isJumping = false;
-        }
+        //have a constant height checker and use that for the collission box
 
-        // sliding
-        if (this.y >= game.settings.platformHeight) {
-            //
-        }
-        if (this.y < game.settings.platformHeight) {
-            this.isSliding = false;
-        }
-
-        // player motion
-        //this.x += game.settings.playerSpeed;
-        if (keyUP.isDown && this.isJumping == false) {
-            this.y -= 150;
-            this.isJumping = true;
-        } else if (keyDOWN.isDown && this.isSliding == false) {
-            this.y += 50; // temporary?
-            this.isSliding = true;
-            //this.setScale(0.5,0.5).setOrigin(0,0);
-            //slide
-        }
-        */
 
         // checkpoint interaction
         if (Phaser.Input.Keyboard.JustDown(keyF)) {

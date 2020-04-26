@@ -21,3 +21,10 @@ Commit #4:
     for the time frame. Changed the bootleg physics to a more
     simplistic mechanic based game via movement and map
     orientation.
+
+Commit #5:
+    Enacted the changes discussed in 4/25 meeting. Overhaul to
+    the aesthetic. Added killzone sprite. Resized map and models.
+    Beer awards points now. Car cycles through screen and bumps
+    player backward. Player has vertical/downward motion as well
+    as temporarily left/right. Huge patch.
