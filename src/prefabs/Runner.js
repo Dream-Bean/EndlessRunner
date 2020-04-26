@@ -25,7 +25,7 @@ class Player extends Phaser.GameObjects.Sprite {
         }
 
         // test movement only ←→
-        if (Phaser.Input.Keyboard.JustDown(keyLEFT)) {
+        if (Phaser.Input.Keyboard.JustDown(keyLEFT) && this.x > 0) {
             this.x -= 50;
         }
         if (Phaser.Input.Keyboard.JustDown(keyRIGHT)) {
