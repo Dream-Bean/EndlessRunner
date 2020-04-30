@@ -35,3 +35,8 @@ Commit #6:
     of the game and direction. Also to get feedback. Notable changes
     are car rng speed, layout, math of dimensions, score, and some
     hot fixes.
+
+Commit #7:
+    Massive overhaul of art assets; using a few new temporary ones.
+    Touching up hitboxes and sizing. Also overall organization of
+    on screen stuff and code.

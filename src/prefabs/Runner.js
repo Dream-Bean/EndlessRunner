@@ -10,17 +10,13 @@ class Player extends Phaser.GameObjects.Sprite {
     }
 
     update() {
-        // player hitbox
-        //this.hitbox = this.y;
-        //console.log(this.hitbox);
-
-        // player motion
+        // player motion ↑↓
         if (Phaser.Input.Keyboard.JustDown(keyUP) && this.positionTracker != 1) {
-            this.y -= 144;
+            this.y -= game.settings.runnerMove;
             this.positionTracker++;
         }
         if (Phaser.Input.Keyboard.JustDown(keyDOWN) && this.positionTracker != -1) {
-            this.y += 144;
+            this.y += game.settings.runnerMove;
             this.positionTracker--;
         }
 

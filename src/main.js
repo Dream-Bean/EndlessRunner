@@ -19,10 +19,14 @@ let game = new Phaser.Game(config);
 
 // define game settings
 game.settings = {
-    cpSpeed: 6,
+    killZone: 1160,             // far right of screen
+    runnerStart: 3 * 144 - 30,  // y position of runner's start location
+    runnerMove: 144,            // runner vertical motion
+    // weight: 0,
+    highScore: 0,
+    manholeSpeed: 6,
     beerSpeed: 3,
-    weight: 0,
-    killZone: 1210 - 120,
+    obstacleSpeed: 0,
 };
 
 // reserve keyboard variables

@@ -9,7 +9,7 @@ class Checkpoint extends Phaser.GameObjects.Sprite {
 
     update() {
         // move spaceship left
-        this.x += game.settings.cpSpeed
+        this.x += game.settings.manholeSpeed
 
     }
 
