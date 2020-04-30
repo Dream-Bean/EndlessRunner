@@ -7,8 +7,11 @@ let config = {
     physics: {
         default: 'arcade',
         arcade: {
-            gravity: {y: 500},
-            debug: false,
+            debug: true,
+            gravity: {
+                x: 0,
+                y: 0,
+            }
         },
     },      
     */
@@ -20,12 +23,10 @@ let game = new Phaser.Game(config);
 // define game settings
 game.settings = {
     killZone: 1160,             // far right of screen
-    runnerStart: 3 * 144 - 30,  // y position of runner's start location
-    runnerMove: 144,            // runner vertical motion
     // weight: 0,
     highScore: 0,
-    manholeSpeed: 6,
-    beerSpeed: 3,
+    manholeSpeed: 4,
+    beerSpeed: 5,
     obstacleSpeed: 0,
 };
 

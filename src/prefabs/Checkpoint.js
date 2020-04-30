@@ -3,17 +3,25 @@ class Checkpoint extends Phaser.GameObjects.Sprite {
         super(scene, x, y, texture, frame);
 
         scene.add.existing(this);   // add object to existing scene, displayList, updateList
-    }
 
-    // set a timer in play to spawn it every t amount of time
+        this.manholeStart = false;
+        this.rowStartMH = 1;
+    }
 
     update() {
-        // move spaceship left
-        this.x += game.settings.manholeSpeed
-
+        if (this.manholeStart == true) {
+            this.x += game.settings.manholeSpeed;
+        }
     }
 
-    reset() {
-        this.x = 0;
+    spawn() {
+        this.rowStartMH = Phaser.Math.Between(0, 2);
+        if (this.rowStartMH == 0) {
+            this.y = 360 + 105 - 144;
+        } else if (this.rowStartMH == 1) {
+            this.y = 360 + 105;
+        } else if (this.rowStartMH == 2) {
+            this.y = 360 + 105 + 144;
+        }
     }
 }

@@ -3,7 +3,7 @@ class Obstacle extends Phaser.GameObjects.Sprite {
         super(scene, x, y, texture, frame);
 
         scene.add.existing(this);   // add object to existing scene, displayList, updateList
-        this.obstacleSpeed = 5;
+        this.obstacleSpeed = 6;
     }
 
     update() {
@@ -13,7 +13,7 @@ class Obstacle extends Phaser.GameObjects.Sprite {
         // wraparound screen bounds
         if (this.x > game.config.width) {
             this.x = -100;
-            this.obstacleSpeed = Phaser.Math.Between(5, 12);
+            this.obstacleSpeed = 6 //Phaser.Math.Between(6, 10);
         }
     }
 }

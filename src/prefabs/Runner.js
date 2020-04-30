@@ -4,19 +4,16 @@ class Player extends Phaser.GameObjects.Sprite {
 
         scene.add.existing(this);   // add object to existing scene, displayList, updateList
         this.positionTracker = 0;
-        this.isMid = false;
-        this.isBot = false;
-        //this.hitbox;
     }
 
     update() {
         // player motion ↑↓
         if (Phaser.Input.Keyboard.JustDown(keyUP) && this.positionTracker != 1) {
-            this.y -= game.settings.runnerMove;
+            this.y -= 144;
             this.positionTracker++;
         }
         if (Phaser.Input.Keyboard.JustDown(keyDOWN) && this.positionTracker != -1) {
-            this.y += game.settings.runnerMove;
+            this.y += 144;
             this.positionTracker--;
         }
 
@@ -29,8 +26,9 @@ class Player extends Phaser.GameObjects.Sprite {
         }
 
         // checkpoint interaction
-        //if (Phaser.Input.Keyboard.JustDown(keyF)) {
-            //weight drop and point gain
-        //}
+        if (Phaser.Input.Keyboard.JustDown(keyF)) {
+            //this.points += this.weight;
+            //this.weight = 0;
+        }
     }
 }

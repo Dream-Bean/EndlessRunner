@@ -3,19 +3,26 @@ class Beer extends Phaser.GameObjects.Sprite {
         super(scene, x, y, texture, frame);
 
         scene.add.existing(this);   // add object to existing scene, displayList, updateList
+        this.rowStartD = 1;
     }
 
     update() {
-        // move drink left
         this.x += game.settings.beerSpeed
+    }
 
-        // wraparound screen bounds
-        if (this.x > game.config.width) {
-            this.x = -100;
+    spawn() {
+        this.rowStartD = Phaser.Math.Between(0, 2);
+        if (this.rowStartD == 0) {
+            this.y = 360 + 105 - 144;
+        } else if (this.rowStartD == 1) {
+            this.y = 360 + 105;
+        } else if (this.rowStartD == 2) {
+            this.y = 360 + 105 + 144;
         }
     }
 
     reset() {
-        this.x = 20;
+        this.x += 300;
+        
     }
 }

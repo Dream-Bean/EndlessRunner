@@ -40,3 +40,11 @@ Commit #7:
     Massive overhaul of art assets; using a few new temporary ones.
     Touching up hitboxes and sizing. Also overall organization of
     on screen stuff and code.
+
+Commit #8:
+    Changed mechanics between barrier and player - sliding the player
+    rather than pushing. Additionally player winds up to middle of
+    screen if not there and not touching a barrier. Also fixed the
+    timing and lane spawning for beer and manhole. Need to add
+    another layer of rng to the beer like adding a 2nd one? Maybe
+    add layer checking to make sure no spawned asset is stacking.
