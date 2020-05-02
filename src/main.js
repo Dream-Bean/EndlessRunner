@@ -15,6 +15,7 @@ let config = {
         },
     },      
     */
+    pixelArt: true,
     scene: [Menu, Tutorial, Play],
 };
 

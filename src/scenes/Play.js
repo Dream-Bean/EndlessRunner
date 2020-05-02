@@ -8,16 +8,16 @@ class Play extends Phaser.Scene {
         this.load.image('beer', './assets/beer.png');
         this.load.image('obstacle', './assets/roadbarrier.png');
         this.load.image('manhole', './assets/manhole.png');
-        this.load.image('newestbg', './assets/newartbg.png');
-        //this.load.image('topbg', './assets/bgsidewalk.png');
+        this.load.image('botbg', './assets/road.png');
+        this.load.image('topbg', './assets/finalsw.png');
     }
 
     create() {
         // Place tile sprite
-        this.wp = this.add.tileSprite(0, 0, 1280, 720, 'newestbg').setScale(4, 4).setOrigin(0, 0);
-        //this.wpTop = this.add.tileSprite(0, 0, 1280, 280, 'topbg').setScale(1, 1).setOrigin(0, 0);
+        this.wpTop = this.add.tileSprite(0, 0, 632, 70, 'topbg').setScale(4, 4).setOrigin(0, 0);
+        this.wpBot = this.add.tileSprite(0, 280, 316, 108, 'botbg').setScale(4.1, 4).setOrigin(0, 0);
 
-        
+        1
         // Define keyboard keys
         keyUP = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.UP);
         keyLEFT = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.LEFT);
@@ -32,11 +32,11 @@ class Play extends Phaser.Scene {
         // Add beer
         this.beer = new Beer(this, 790, 360 + 90, 'beer').setScale(1.5, 1.5).setOrigin(0, 0);
         // Add barriers
-        this.barrier0 = new Obstacle(this, 0, 288, 'obstacle').setScale(2.5, 2.25).setOrigin(0, 0);
-        this.barrier1 = new Obstacle(this, -450, 288 + 144, 'obstacle').setScale(2.5, 2.25).setOrigin(0, 0);
-        this.barrier2 = new Obstacle(this, -100, 288 + 2 * 144, 'obstacle').setScale(2.5, 2.25).setOrigin(0, 0);
+        this.barrier0 = new Obstacle(this, 0, 288 -45, 'obstacle').setScale(3, 3).setOrigin(0, 0);
+        this.barrier1 = new Obstacle(this, -450, 288 + 144 -45, 'obstacle').setScale(3, 3).setOrigin(0, 0);
+        this.barrier2 = new Obstacle(this, -100, 288 + 2 * 144 -45, 'obstacle').setScale(3, 3).setOrigin(0, 0);
         // Add player
-        this.player = new Player(this, 1000, 3 * 144 - 30, 'runner').setScale(2, 2.25).setSize(100, 100).setOrigin(0, 0);
+        this.player = new Player(this, 1000, 3 * 144 - 45, 'runner').setScale(2, 2.25).setSize(100, 100).setOrigin(0, 0);
         //this.player.setDebugBodyColor(0x0000FF);
 
         // Conditions
@@ -44,7 +44,9 @@ class Play extends Phaser.Scene {
         this.isManholeTimer = false;
         this.isBeerTimer = false;
         this.positionChecker = true;
+        this.isVomiting = false;
         // Score
+        this.weight = 0;
         this.points = 0;
 
         // Text
@@ -76,7 +78,8 @@ class Play extends Phaser.Scene {
     }
 
     update() {
-        this.wp.tilePositionX -= 2;
+        this.wpBot.tilePositionX -= 2;
+        this.wpTop.tilePositionX -= 1;
 
         // Killed by edge
         if (this.player.x >= game.settings.killZone) {
@@ -130,7 +133,14 @@ class Play extends Phaser.Scene {
             this.playerHit(this.player, this.barrier2);
         }
         if (this.checkCollision(this.player, this.beer)) {
-            this.playerDrink(this.player, this.beer);
+            this.playerDrink(this.beer);
+        }
+        if (this.checkCollision(this.player, this.manhole) && keyF.isDown) {
+            //put delayed call here?
+            this.playerVomit();
+            this.isVomiting = true;
+        } else {
+            this.isVomiting = false;
         }
 
         // Update objects
@@ -149,17 +159,20 @@ class Play extends Phaser.Scene {
             this.highScore.text = "High Score: " + game.settings.highScore;
         }
 
-        // Move player to starting x position
-        if (this.player.x <= game.config.width / 2) {
+        // Player x-movement
+        if (this.player.x <= game.config.width / 2 + 100 && this.isVomiting == false) {
             this.positionChecker = true;
-        } else if (this.player.x > game.config.width/2) {
+        } else if (this.player.x > game.config.width / 2 && this.isVomiting == false) {
             this.positionChecker = false;
         }
-        if (this.positionChecker == false &&
+        if (this.positionChecker == false && this.isVomiting == false &&
             !this.checkCollision(this.player, this.barrier0) &&
             !this.checkCollision(this.player, this.barrier1) &&
             !this.checkCollision(this.player, this.barrier2)) {
-            this.player.x -= 1;
+            this.player.x -= 0.5;
+        }
+        if (this.isVomiting == true) {
+            this.player.x += game.settings.manholeSpeed;
         }
         
     }
@@ -183,22 +196,25 @@ class Play extends Phaser.Scene {
     }
 
     // Player-drink reaction
-    playerDrink(player, drink) {
-        this.points++;
-        this.score.text = "Score: " + this.points;
+    playerDrink(drink) {
+        this.weight++;
         drink.alpha = 0;
-        drink.reset();
+        drink.x += 300;
         // add drunkenness mechanic later
+    }
+
+    playerVomit() { //play with it when i get animations
+        console.log(this.weight);
+        if (this.weight > 0) {
+            this.weight--;
+            this.points++;
+            this.score.text = "Score: " + this.points;
+        }
     }
 
     // make a fcn to boop checkpoint back 100m if touching car
         //same for other objects
-    
-    // make a checker to see if player is on top of checkpoint.
-        //if yes
-            //turn in beers for score
-        //if no
-            //dont turn in
+
         
     //note: beers add some kind of effect
 

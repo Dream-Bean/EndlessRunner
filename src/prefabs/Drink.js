@@ -20,9 +20,4 @@ class Beer extends Phaser.GameObjects.Sprite {
             this.y = 360 + 105 + 144;
         }
     }
-
-    reset() {
-        this.x += 300;
-        
-    }
 }

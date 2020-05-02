@@ -48,3 +48,10 @@ Commit #8:
     timing and lane spawning for beer and manhole. Need to add
     another layer of rng to the beer like adding a 2nd one? Maybe
     add layer checking to make sure no spawned asset is stacking.
+
+Commit #9:
+    Changed background arts. Added a beer dumping mechanism that
+    cashes in beers for points into the manhole. Waiting on
+    animations to implement. Need to revamp the barrier spawns:
+    spawn them -x rng. Fix framerate for different monitors -
+    make a global one.
