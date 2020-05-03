@@ -64,3 +64,6 @@ Commit #11:
     the hitboxes of everything. Animation also stops when hitting
     a barrier. Also need to add the vomit animation, and tweek
     spawns/timers.
+
+Commit #12:
+    Quick patch for hitbox correction and scaling.

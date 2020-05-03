@@ -37,7 +37,7 @@ class Play extends Phaser.Scene {
         // Player animations
         this.anims.create({
             key: 'run',
-            frames: this.anims.generateFrameNumbers('runanim', {start: 0, end: 7, first: 0}),
+            frames: this.anims.generateFrameNumbers('runanim', {start: 0, end: 6, first: 0}),
             frameRate: 10,
             setScale: 4,
             repeat: -1,
@@ -49,19 +49,17 @@ class Play extends Phaser.Scene {
         })
 
         // Add checkpoint
-        this.manhole = new Checkpoint(this, -200, 360 + 95 - 144, 'manhole').setScale(2, 2).setOrigin(0, 0);
+        this.manhole = new Checkpoint(this, -200, 360 + 95 - 144, 'manhole').setScale(2.1, 2.1).setSize(100, 100).setOrigin(0, 0);
         // Add beer
-        this.beer = new Beer(this, -200, 360 + 85 - 144, 'beer').setScale(2, 2).setOrigin(0, 0);
+        this.beer = new Beer(this, -200, 360 + 60 - 144, 'beer').setScale(2, 2).setSize(72,100).setOrigin(0);
         // Add barriers
-        this.barrier0 = new Obstacle(this, 0, 288 -65, 'obstacle').setScale(4, 4).setOrigin(0, 0); //edit setsizes of
-        this.barrier1 = new Obstacle(this, -450, 288 + 144 -65, 'obstacle').setScale(4, 4).setOrigin(0, 0);
-        this.barrier2 = new Obstacle(this, -100, 288 + 2 * 144 -65, 'obstacle').setScale(4, 4).setOrigin(0, 0);
+        this.barrier0 = new Obstacle(this, 0, 288 + 25, 'obstacle').setScale(4, 4).setOrigin(0.5); //edit setsizes of
+        this.barrier1 = new Obstacle(this, -450, 288 + 25 + 144, 'obstacle').setScale(4, 4).setOrigin(0.5);
+        this.barrier2 = new Obstacle(this, -100, 288 + 25 + 2 * 144, 'obstacle').setScale(4, 4).setOrigin(0.5);
         // Add player
-        this.player = new Player(this, 1000, 3 * 144 - 100, 'runanim').setScale(3, 3).setSize(50, 50).setOrigin(0, 0); //.setScale(2, 2.25).setSize(100, 100)
+        this.player = new Player(this, 1000, 3 * 144 - 20, 'runanim').setScale(3, 3).setSize(74, 160).setOrigin(0, 0.5); //.setScale(2, 2.25).setSize(100, 100)
         this.player.anims.play('run')
-        //this.player.anchor.set(0.5, 0.5);
-        //this.player.animations.add('idle', [0,1,2,3,4,5,6,7], 8, true);//animations
-        //this.player.animations.play()
+        console.log("new?");
 
         // Conditions
         this.gameOver = false;
@@ -247,8 +245,6 @@ class Play extends Phaser.Scene {
             this.moveAnimOn = false;
             this.player.anims.stop('run')
         }
-        //this.player.anims.stop('run')
-        //kill animation and sound
     }
 
     // Player-drink reaction
@@ -284,6 +280,7 @@ class Play extends Phaser.Scene {
                 this.pointTimer = this.time.delayedCall(250, () => {
                     this.isPointTimer = false;
                     this.weight--;
+                    this.beerCount.text = "Beers: " + this.weight;
                     this.points++;
                     game.settings.globalSpeed -= 1;
                     this.score.text = "Score: " + this.points;
