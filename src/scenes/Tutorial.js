@@ -32,11 +32,16 @@ class Tutorial extends Phaser.Scene {
         // show tutorial text
         let centerX = game.config.width / 2;
         let centerY = game.config.height / 2;
-        let textSpacer = 64;
-        this.add.text(centerX, centerY - 2*textSpacer, 'Tutorial', tutorialConfig).setScale(1.5, 1.5).setOrigin(0.5);
-        this.add.text(centerX, centerY, 'Controls: ← → ↑ ↓', tutorialConfig).setOrigin(0.5);
-        this.add.text(centerX, centerY + textSpacer, 'Dodge cars and collect beers, but more\n importantly do not get caught by the cops', tutorialConfig).setOrigin(0.5);
-        this.add.text(centerX, centerY + 2*textSpacer, 'Press (P) To Start Playing!', tutorialConfig).setOrigin(0.5);
+        this.add.text(centerX, centerY - 200, 'Tutorial', tutorialConfig).setScale(1.5, 1.5).setOrigin(0.5);
+        this.add.text(centerX, centerY - 105, ' Objective: ', tutorialConfig).setOrigin(0.5);
+        this.add.text(centerX, centerY - 70, ' Collect beers while dodging the barriers ', tutorialConfig).setOrigin(0.5);
+        this.add.text(centerX, centerY - 35, ' Game speed correlates to total amount of unspent beers ', tutorialConfig).setOrigin(0.5);
+        this.add.text(centerX, centerY, ' Going off of the screen will result in game over ', tutorialConfig).setOrigin(0.5);
+        this.add.text(centerX, centerY + 70, ' Controls: ', tutorialConfig).setOrigin(0.5);
+        this.add.text(centerX, centerY + 105, ' ↑ to move up | ↓ to move down ', tutorialConfig).setOrigin(0.5);
+        this.add.text(centerX, centerY + 140, ' Press F while on a manhole to turn in a beer ', tutorialConfig).setOrigin(0.5);
+        this.add.text(centerX, centerY + 175, ' Holding F will turn in multiple beers ', tutorialConfig).setOrigin(0.5);
+        this.add.text(centerX, centerY + 250, ' ~ Press P To Play ~ ', tutorialConfig).setOrigin(0.5);
 
         // define keys
         keyP = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.P);
