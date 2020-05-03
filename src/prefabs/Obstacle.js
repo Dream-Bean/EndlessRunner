@@ -11,7 +11,7 @@ class Obstacle extends Phaser.GameObjects.Sprite {
 
         // wraparound screen bounds
         if (this.x > game.config.width) {
-            this.x = -150; //Phaser.Math.Between(100, 700);  //-100;
+            this.x = -Phaser.Math.Between(100, 700);  //-100;
             //this.obstacleSpeed = 6 //Phaser.Math.Between(6, 10);
         }
     }

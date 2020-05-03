@@ -58,3 +58,9 @@ Commit #9:
 
 Commit #10:
     Added some animations. Fixing up all of the animations.
+
+Commit #11:
+    Added run animation properly. Adjusted sizings. Need to fix
+    the hitboxes of everything. Animation also stops when hitting
+    a barrier. Also need to add the vomit animation, and tweek
+    spawns/timers.
