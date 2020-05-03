@@ -32,10 +32,9 @@ class Menu extends Phaser.Scene {
         // show menu text
         let centerX = game.config.width / 2;
         let centerY = game.config.height / 2;
-        let textSpacer = 64;
-        this.add.text(centerX, centerY - 2 * textSpacer, 'SalaryMan', menuConfig).setScale(1.5, 1.5).setOrigin(0.5);
-        this.add.text(centerX, centerY, 'Press (P) To Start Playing!', menuConfig).setOrigin(0.5);
-        this.add.text(centerX, centerY + textSpacer, 'Press (T) For Tutorial!', menuConfig).setOrigin(0.5);
+        this.add.text(centerX, centerY - 200, ' Salary Man ', menuConfig).setScale(1.5, 1.5).setOrigin(0.5);
+        this.add.text(centerX, centerY, ' ~ Press P To Play ~ ', menuConfig).setOrigin(0.5);
+        this.add.text(centerX, centerY + 35, ' ~ Press T For Tutorial ~ ', menuConfig).setOrigin(0.5);
 
         // define keys
         keyP = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.P);

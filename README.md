@@ -67,3 +67,7 @@ Commit #11:
 
 Commit #12:
     Quick patch for hitbox correction and scaling.
+
+Commit #13:
+    Game is done. Just needs balancing with timers and spawners.
+    Additionally could add something to stop object stacking.

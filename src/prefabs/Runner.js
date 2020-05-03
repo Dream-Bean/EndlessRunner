@@ -17,6 +17,7 @@ class Player extends Phaser.GameObjects.Sprite {
             this.positionTracker--;
         }
 
+        /*
         // test movement only ←→
         if (Phaser.Input.Keyboard.JustDown(keyLEFT) && this.x > 0) {
             this.x -= 50;
@@ -24,11 +25,6 @@ class Player extends Phaser.GameObjects.Sprite {
         if (Phaser.Input.Keyboard.JustDown(keyRIGHT)) {
             this.x += 50;
         }
-
-        // checkpoint interaction
-        if (Phaser.Input.Keyboard.JustDown(keyF)) {
-            //this.points += this.weight;
-            //this.weight = 0;
-        }
+        */
     }
 }

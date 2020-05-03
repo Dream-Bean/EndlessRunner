@@ -4,16 +4,18 @@ class Play extends Phaser.Scene {
     }
 
     preload() {
+        // Load assets
         this.load.image('runner', './assets/runner.png');
         this.load.image('beer', './assets/beer.png');
         this.load.image('obstacle', './assets/roadbarrier.png');
         this.load.image('manhole', './assets/manhole.png');
         this.load.image('botbg', './assets/street.png');
         this.load.image('topbg', './assets/finalsw.png');
-        this.load.spritesheet('runanim', './assets/run_spritesheet.png', {frameWidth: 74, frameHeight: 66, startFrame: 0, endFrame: 7});
-        this.load.spritesheet('vomitanim', './assets/vomit_spritesheet.png', { frameWidth: 45, frameHeight: 53, startFrame: 0, endFrame: 1});
+        this.load.spritesheet('runanim', './assets/run_final_empty.png', {frameWidth: 74, frameHeight: 66, startFrame: 0, endFrame: 8});
+        this.load.spritesheet('vomitanim', './assets/vomit_empty.png', { frameWidth: 45, frameHeight: 53, startFrame: 0, endFrame: 2});
         this.load.audio('cheersfx', './assets/cheers.mp3');
         this.load.audio('bgmusic', './assets/bglofi.mp3');
+        this.load.audio('scoresfx', './assets/cashin.mp3');
     }
 
     create() {
@@ -37,12 +39,12 @@ class Play extends Phaser.Scene {
         // Player animations
         this.anims.create({
             key: 'run',
-            frames: this.anims.generateFrameNumbers('runanim', {start: 0, end: 6, first: 0}),
+            frames: this.anims.generateFrameNumbers('runanim', {start: 0, end: 7, first: 0}),
             frameRate: 10,
             setScale: 4,
             repeat: -1,
         });
-        this.anims.create({
+        this.anims.create({ //use from same sprite at a later point.
             key: 'vomit',
             frames: this.anims.generateFrameNumbers('vomitanim', { start: 0, end: 1, first: 0 }),
             frameRate: 3,
@@ -53,13 +55,12 @@ class Play extends Phaser.Scene {
         // Add beer
         this.beer = new Beer(this, -200, 360 + 60 - 144, 'beer').setScale(2, 2).setSize(72,100).setOrigin(0);
         // Add barriers
-        this.barrier0 = new Obstacle(this, 0, 288 + 25, 'obstacle').setScale(4, 4).setOrigin(0.5); //edit setsizes of
+        this.barrier0 = new Obstacle(this, 0, 288 + 25, 'obstacle').setScale(4, 4).setOrigin(0.5);
         this.barrier1 = new Obstacle(this, -450, 288 + 25 + 144, 'obstacle').setScale(4, 4).setOrigin(0.5);
         this.barrier2 = new Obstacle(this, -100, 288 + 25 + 2 * 144, 'obstacle').setScale(4, 4).setOrigin(0.5);
         // Add player
-        this.player = new Player(this, 1000, 3 * 144 - 20, 'runanim').setScale(3, 3).setSize(74, 160).setOrigin(0, 0.5); //.setScale(2, 2.25).setSize(100, 100)
+        this.player = new Player(this, 1000, 3 * 144 - 20, 'runanim').setScale(3, 3).setSize(160, 160).setOrigin(0, 0.5);
         this.player.anims.play('run')
-        console.log("new?");
 
         // Conditions
         this.gameOver = false;
@@ -70,13 +71,13 @@ class Play extends Phaser.Scene {
         this.isPointTimer = false;
         this.isMoving = true;
         this.moveAnimOn = true;
-        //this.vomitBool = false;
-        //this.runBool = false;
+        this.soundBool = false;
+        //this.vomitBool = false; //probably delete all instaces of this
         // Score 
         this.weight = 0;
         this.points = 0;
 
-        // Text
+        // Text format
         this.playConfig = {
             fontFamily: 'Courier New',
             fontSize: '28px',
@@ -93,11 +94,9 @@ class Play extends Phaser.Scene {
         this.centerY = game.config.height / 2;
         this.textSpacer = 64;
 
-        // High score display
+        // Displays
         this.highScore = this.add.text(5, 5, "High Score: " + game.settings.highScore, this.playConfig);
-        // Score board
         this.score = this.add.text(5, 35, "Score: 0", this.playConfig);
-        // Beer display
         this.beerCount = this.add.text(1140, 5, "Beers: 0", this.playConfig);
         // Borders
         this.add.rectangle(0, 0, 1280, 5, 0x000000).setOrigin(0, 0); // left
@@ -128,6 +127,8 @@ class Play extends Phaser.Scene {
                 this.scene.start("menuScene");
             }
             this.music.stop();
+            game.settings.globalSpeed = 6;
+            this.weight = 0;
         }
 
         // Manhole spawner
@@ -153,7 +154,7 @@ class Play extends Phaser.Scene {
             }, null, this);
         }
 
-        // Check collisions
+        // Check player collisions
         if (this.checkCollision(this.player, this.barrier0)) {
             this.playerHit(this.player, this.barrier0);
         }
@@ -171,7 +172,6 @@ class Play extends Phaser.Scene {
             this.isVomiting = true;
         } else {
             this.isVomiting = false;
-            //this.vomitBool = false;
         }
 
         // Update objects
@@ -192,13 +192,15 @@ class Play extends Phaser.Scene {
         }
 
         // Player x-movement
-        if (this.player.x <= game.config.width / 2 + 100 && this.isVomiting == false) {
+            // Prevent player from going past start position - probably unneeded code tbh.
+        if (this.player.x <= game.config.width / 2 && this.isVomiting == false) {
             this.positionChecker = true;
             this.isMoving = true;
             if (this.isMoving == true && this.moveAnimOn == false) {
                 this.moveAnimOn = true;
                 this.player.anims.play('run')
             }
+            // Check to see if player has been displaced from start position
         } else if (this.player.x > game.config.width / 2 && this.isVomiting == false) {
             this.positionChecker = false;
             this.isMoving = true;
@@ -207,6 +209,7 @@ class Play extends Phaser.Scene {
                 this.player.anims.play('run')
             }
         }
+            // Player catch up to start position if not being pushed or vomiting.
         if (this.positionChecker == false && this.isVomiting == false &&
             !this.checkCollision(this.player, this.barrier0) &&
             !this.checkCollision(this.player, this.barrier1) &&
@@ -214,14 +217,15 @@ class Play extends Phaser.Scene {
             this.player.x -= 1;
             this.isMoving = true;
         }
+            // Stop run animation when player is vomiting
         if (this.isVomiting == true) {
             this.player.x += game.settings.globalSpeed;
             this.isMoving = false;
             if (this.isMoving == false && this.moveAnimOn == true) {
                 this.moveAnimOn = false;
                 this.player.anims.stop('run')
+                this.player.anims.play('vomit');
             }
-            //this.player.anims.stop('run')
         }
     }
 
@@ -241,6 +245,7 @@ class Play extends Phaser.Scene {
     playerHit(player) {
         player.x += game.settings.globalSpeed;
         this.isMoving = false;
+        // Stop run animation
         if (this.isMoving == false && this.moveAnimOn == true) {
             this.moveAnimOn = false;
             this.player.anims.stop('run')
@@ -255,13 +260,26 @@ class Play extends Phaser.Scene {
         drink.alpha = 0;
         drink.x += 300;
         game.settings.globalSpeed += 1;
-        // add drunkenness mechanic later
     }
 
     // Player scoring
-    playerVomit(player) {
+    playerVomit(player) { //take out player maybe
+        if (this.soundBool == false) {
+            this.sound.play('scoresfx');
+            this.soundBool = true;
+        }
         if (this.weight > 0) {
             // Player vomit animation
+            /*
+            this.isMoving = false;
+            this.vomitAnimOn == true;
+            console.log("does it get in here");
+            if (this.isMoving == false && this.vomitAnimOn == true) {
+                this.vomitAnimOn = false;
+                this.player.anims.stop('run');
+                this.player.anims.play('vomit');
+            }
+            */
             /*
             if (this.vomitBool == false) {
                 this.vomitBool = true;
@@ -277,6 +295,7 @@ class Play extends Phaser.Scene {
             // Score manipulation
             if (this.isPointTimer == false) {
                 this.isPointTimer = true;
+                // Timer to turn unload beers 1 by 1
                 this.pointTimer = this.time.delayedCall(250, () => {
                     this.isPointTimer = false;
                     this.weight--;
