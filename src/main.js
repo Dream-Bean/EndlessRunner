@@ -3,18 +3,10 @@ let config = {
     type: Phaser.CANVAS,
     width: 1280,
     height: 720,
-    /*
-    physics: {
-        default: 'arcade',
-        arcade: {
-            debug: true,
-            gravity: {
-                x: 0,
-                y: 0,
-            }
-        },
-    },      
-    */
+    fps: {
+        target: 60,
+        forceSetTimeOut: true
+    }, 
     pixelArt: true,
     scene: [Menu, Tutorial, Play],
 };
@@ -26,9 +18,7 @@ game.settings = {
     killZone: 1160,             // far right of screen
     // weight: 0,
     highScore: 0,
-    manholeSpeed: 4,
-    beerSpeed: 5,
-    obstacleSpeed: 0,
+    globalSpeed: 6,
 };
 
 // reserve keyboard variables

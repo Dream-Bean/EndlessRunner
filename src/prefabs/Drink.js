@@ -7,17 +7,17 @@ class Beer extends Phaser.GameObjects.Sprite {
     }
 
     update() {
-        this.x += game.settings.beerSpeed
+        this.x += game.settings.globalSpeed
     }
 
     spawn() {
         this.rowStartD = Phaser.Math.Between(0, 2);
         if (this.rowStartD == 0) {
-            this.y = 360 + 105 - 144;
+            this.y = 360 + 85 - 144;
         } else if (this.rowStartD == 1) {
-            this.y = 360 + 105;
+            this.y = 360 + 85;
         } else if (this.rowStartD == 2) {
-            this.y = 360 + 105 + 144;
+            this.y = 360 + 85 + 144;
         }
     }
 }

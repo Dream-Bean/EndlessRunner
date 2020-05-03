@@ -10,14 +10,15 @@ class Play extends Phaser.Scene {
         this.load.image('manhole', './assets/manhole.png');
         this.load.image('botbg', './assets/road.png');
         this.load.image('topbg', './assets/finalsw.png');
+        this.load.spritesheet('runanim', './assets/run_spritesheet.png', {frameWidth: 74, frameHeight: 66, startFrame: 0, endFrame: 7});
+        this.load.spritesheet('vomitanim', './assets/vomit_spritesheet.png', { frameWidth: 45, frameHeight: 53, startFrame: 0, endFrame: 1});
     }
 
     create() {
         // Place tile sprite
         this.wpTop = this.add.tileSprite(0, 0, 632, 70, 'topbg').setScale(4, 4).setOrigin(0, 0);
-        this.wpBot = this.add.tileSprite(0, 280, 316, 108, 'botbg').setScale(4.1, 4).setOrigin(0, 0);
+        this.wpBot = this.add.tileSprite(0, 283, 316, 108, 'botbg').setScale(4.1, 4).setOrigin(0, 0);
 
-        1
         // Define keyboard keys
         keyUP = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.UP);
         keyLEFT = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.LEFT);
@@ -27,17 +28,28 @@ class Play extends Phaser.Scene {
         keyM = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.M);
         keyR = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.R);
 
+        // Player animations
+        this.anims.create({
+            key: 'run',
+            frames: this.anims.generateFrameNumbers('runanim', {start: 0, end: 7, first: 0}),
+            frameRate: 10,
+        });
+        this.anims.create({
+            key: 'vomit',
+            frames: this.anims.generateFrameNumbers('vomitanim', { start: 0, end: 1, first: 0 }),
+            frameRate: 3,
+        })
+
         // Add checkpoint
         this.manhole = new Checkpoint(this, -100, 360 + 105 - 144, 'manhole').setScale(1.5, 1.5).setOrigin(0, 0);
         // Add beer
-        this.beer = new Beer(this, 790, 360 + 90, 'beer').setScale(1.5, 1.5).setOrigin(0, 0);
+        this.beer = new Beer(this, 790, 360 + 70, 'beer').setScale(1.5, 1.5).setOrigin(0, 0);
         // Add barriers
         this.barrier0 = new Obstacle(this, 0, 288 -45, 'obstacle').setScale(3, 3).setOrigin(0, 0);
         this.barrier1 = new Obstacle(this, -450, 288 + 144 -45, 'obstacle').setScale(3, 3).setOrigin(0, 0);
         this.barrier2 = new Obstacle(this, -100, 288 + 2 * 144 -45, 'obstacle').setScale(3, 3).setOrigin(0, 0);
         // Add player
-        this.player = new Player(this, 1000, 3 * 144 - 45, 'runner').setScale(2, 2.25).setSize(100, 100).setOrigin(0, 0);
-        //this.player.setDebugBodyColor(0x0000FF);
+        this.player = new Player(this, 1000, 3 * 144 - 55, 'runner').setScale(2, 2.25).setSize(100, 100).setOrigin(0, 0);
 
         // Conditions
         this.gameOver = false;
@@ -45,15 +57,17 @@ class Play extends Phaser.Scene {
         this.isBeerTimer = false;
         this.positionChecker = true;
         this.isVomiting = false;
+        this.isPointTimer = false;
+        this.vomitBool = false;
         // Score
         this.weight = 0;
         this.points = 0;
 
         // Text
         this.playConfig = {
-            fontFamily: 'Courier',
+            fontFamily: 'Courier New',
             fontSize: '28px',
-            backgroundColor: '#FF0000',
+            backgroundColor: '#FF00FF',
             color: '#000',
             align: 'right',
             padding: {
@@ -70,16 +84,16 @@ class Play extends Phaser.Scene {
         this.highScore = this.add.text(5, 5, "High Score: " + game.settings.highScore, this.playConfig);
         // Score board
         this.score = this.add.text(5, 35, "Score: 0", this.playConfig);
+        // Beer amount?
         // Borders
-        this.add.rectangle(0, 0, 1280, 5, 0x00FFFF).setOrigin(0, 0); // left
-        this.add.rectangle(0, 715, 1280, 5, 0x00FFFF).setOrigin(0, 0); // bottom
-        this.add.rectangle(0, 0, 5, 720, 0x00FFFF).setOrigin(0, 0); // top
-        this.add.rectangle(1275, 0, 5, 720, 0x00FFFF).setOrigin(0, 0); // right    
+        this.add.rectangle(0, 0, 1280, 5, 0x000000).setOrigin(0, 0); // left
+        this.add.rectangle(0, 715, 1280, 5, 0x000000).setOrigin(0, 0); // bottom
+        this.add.rectangle(0, 0, 5, 720, 0x000000).setOrigin(0, 0); // top
+        this.add.rectangle(1275, 0, 5, 720, 0x000000).setOrigin(0, 0); // right    
     }
 
     update() {
-        this.wpBot.tilePositionX -= 2;
-        this.wpTop.tilePositionX -= 1;
+        this.wpTop.tilePositionX -= game.settings.globalSpeed / 4;
 
         // Killed by edge
         if (this.player.x >= game.settings.killZone) {
@@ -137,10 +151,11 @@ class Play extends Phaser.Scene {
         }
         if (this.checkCollision(this.player, this.manhole) && keyF.isDown) {
             //put delayed call here?
-            this.playerVomit();
+            this.playerVomit(this.player);
             this.isVomiting = true;
         } else {
             this.isVomiting = false;
+            this.vomitBool = false;
         }
 
         // Update objects
@@ -170,9 +185,14 @@ class Play extends Phaser.Scene {
             !this.checkCollision(this.player, this.barrier1) &&
             !this.checkCollision(this.player, this.barrier2)) {
             this.player.x -= 0.5;
+            // create explosion sprite at ship's position
+            
+            //this.move.anims.play('run');
+
         }
         if (this.isVomiting == true) {
-            this.player.x += game.settings.manholeSpeed;
+            this.player.x += game.settings.globalSpeed;
+            //this.vomit.anims.play('vomit');
         }
         
     }
@@ -191,7 +211,7 @@ class Play extends Phaser.Scene {
 
     // Player-car reaction
     playerHit(player) {
-        player.x += 6;
+        player.x += game.settings.globalSpeed;
         //kill animation and sound
     }
 
@@ -200,27 +220,38 @@ class Play extends Phaser.Scene {
         this.weight++;
         drink.alpha = 0;
         drink.x += 300;
+        game.settings.globalSpeed += 1;
         // add drunkenness mechanic later
     }
 
-    playerVomit() { //play with it when i get animations
-        console.log(this.weight);
+    // Player point scoring mechanism
+    playerVomit(player) {
         if (this.weight > 0) {
-            this.weight--;
-            this.points++;
-            this.score.text = "Score: " + this.points;
+            if (this.vomitBool == false) {
+                this.vomitBool = true;
+                player.alpha = 0;    
+                let vomit = this.add.sprite(player.x, player.y, 'vomitanim').setOrigin(0, 0);
+                vomit.anims.play('vomit');          
+                vomit.on('animationcomplete', () => {  
+                    player.alpha = 1;        
+                    vomit.destroy(); 
+                });
+            }  
+            if (this.isPointTimer == false) {
+                this.isPointTimer = true;
+                this.pointTimer = this.time.delayedCall(250, () => {
+                    this.isPointTimer = false;
+                    this.weight--;
+                    this.points++;
+                    game.settings.globalSpeed -= 1;
+                    this.score.text = "Score: " + this.points;
+                }, null, this);
+                // add drunkenness mechanic later
+            }
+
         }
     }
 
     // make a fcn to boop checkpoint back 100m if touching car
         //same for other objects
-
-        
-    //note: beers add some kind of effect
-
-    // Point turn-in + drunken haze
-    checkpointReached(player, checkpoint) {
-        //
-    }
-    
 }

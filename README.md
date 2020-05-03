@@ -55,3 +55,6 @@ Commit #9:
     animations to implement. Need to revamp the barrier spawns:
     spawn them -x rng. Fix framerate for different monitors -
     make a global one.
+
+Commit #10:
+    Added some animations. Fixing up all of the animations.

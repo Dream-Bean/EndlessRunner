@@ -10,7 +10,7 @@ class Checkpoint extends Phaser.GameObjects.Sprite {
 
     update() {
         if (this.manholeStart == true) {
-            this.x += game.settings.manholeSpeed;
+            this.x += game.settings.globalSpeed;
         }
     }
 
