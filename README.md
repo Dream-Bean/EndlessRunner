@@ -71,3 +71,9 @@ Commit #12:
 Commit #13:
     Game is done. Just needs balancing with timers and spawners.
     Additionally could add something to stop object stacking.
+
+Commit #14:
+    Game is good to go as is. I think there might be an asset
+    update? Maybe not, either way its chill. Touch up the
+    tutorial and make a collision bumper to space objects for
+    the next and last commit.

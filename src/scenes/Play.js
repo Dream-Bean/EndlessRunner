@@ -55,20 +55,22 @@ class Play extends Phaser.Scene {
         // Add beer
         this.beer = new Beer(this, -200, 360 + 60 - 144, 'beer').setScale(2, 2).setSize(72,100).setOrigin(0);
         // Add barriers
-        this.barrier0 = new Obstacle(this, 0, 288 + 25, 'obstacle').setScale(4, 4).setOrigin(0.5);
-        this.barrier1 = new Obstacle(this, -450, 288 + 25 + 144, 'obstacle').setScale(4, 4).setOrigin(0.5);
-        this.barrier2 = new Obstacle(this, -100, 288 + 25 + 2 * 144, 'obstacle').setScale(4, 4).setOrigin(0.5);
+        this.barrier0 = new Obstacle(this, -640, 288 + 25, 'obstacle').setScale(4, 4).setOrigin(0.5);
+        this.barrier1 = new Obstacle(this, 0, 288 + 25 + 144, 'obstacle').setScale(4, 4).setOrigin(0.5);
+        this.barrier2 = new Obstacle(this, -320, 288 + 25 + 2 * 144, 'obstacle').setScale(4, 4).setOrigin(0.5);
+        this.barrier3 = new Obstacle(this, -960, 288 + 25 + 144, 'obstacle').setScale(4, 4).setOrigin(0.5);
         // Add player
         this.player = new Player(this, 1000, 3 * 144 - 20, 'runanim').setScale(3, 3).setSize(160, 160).setOrigin(0, 0.5);
         this.player.anims.play('run')
 
         // Conditions
         this.gameOver = false;
+        this.positionChecker = true;
         this.isManholeTimer = false;
         this.isBeerTimer = false;
-        this.positionChecker = true;
-        this.isVomiting = false;
+        this.isBarrierTimer == false
         this.isPointTimer = false;
+        this.isVomiting = false;
         this.isMoving = true;
         this.moveAnimOn = true;
         this.soundBool = false;
@@ -129,13 +131,14 @@ class Play extends Phaser.Scene {
             this.music.stop();
             game.settings.globalSpeed = 6;
             this.weight = 0;
+            game.settings.startPositionBuffer = 0;
         }
 
         // Manhole spawner
         if (this.isManholeTimer == false) {
             this.isManholeTimer = true;
-            // 5-second timer
-            this.manholeTimer = this.time.delayedCall(5000, () => {
+            // 15-second timer
+            this.manholeTimer = this.time.delayedCall(10000, () => {
                 this.isManholeTimer = false;
                 this.manhole.x = -50;
                 this.manhole.manholeStart = true;
@@ -146,7 +149,7 @@ class Play extends Phaser.Scene {
         if (this.isBeerTimer == false) {
             this.isBeerTimer = true;
             // 5-second timer
-            this.beerTimer = this.time.delayedCall(8000, () => {
+            this.beerTimer = this.time.delayedCall(5000, () => {
                 this.isBeerTimer = false;
                 this.beer.x = -50;
                 this.beer.alpha = 1;
@@ -163,6 +166,9 @@ class Play extends Phaser.Scene {
         }
         if (this.checkCollision(this.player, this.barrier2)) {
             this.playerHit(this.player, this.barrier2);
+        }
+        if (this.checkCollision(this.player, this.barrier3)) {
+            this.playerHit(this.player, this.barrier3);
         }
         if (this.checkCollision(this.player, this.beer)) {
             this.playerDrink(this.beer);
@@ -184,6 +190,7 @@ class Play extends Phaser.Scene {
         this.barrier0.update();
         this.barrier1.update();
         this.barrier2.update();
+        this.barrier3.update();
 
         // Increase high score and repaint (if applicable)
         if (this.points > game.settings.highScore) {
@@ -193,29 +200,33 @@ class Play extends Phaser.Scene {
 
         // Player x-movement
             // Prevent player from going past start position - probably unneeded code tbh.
-        if (this.player.x <= game.config.width / 2 && this.isVomiting == false) {
+        if (this.player.x <= game.config.width / 2 - game.settings.startPositionBuffer && this.isVomiting == false) {
             this.positionChecker = true;
             this.isMoving = true;
             if (this.isMoving == true && this.moveAnimOn == false) {
                 this.moveAnimOn = true;
                 this.player.anims.play('run')
+                this.soundBool = false;
             }
             // Check to see if player has been displaced from start position
-        } else if (this.player.x > game.config.width / 2 && this.isVomiting == false) {
+        } else if (this.player.x > game.config.width / 2 - game.settings.startPositionBuffer && this.isVomiting == false) {
             this.positionChecker = false;
             this.isMoving = true;
             if (this.isMoving == true && this.moveAnimOn == false) {
                 this.moveAnimOn = true;
                 this.player.anims.play('run')
+                this.soundBool = false;
             }
         }
             // Player catch up to start position if not being pushed or vomiting.
         if (this.positionChecker == false && this.isVomiting == false &&
             !this.checkCollision(this.player, this.barrier0) &&
             !this.checkCollision(this.player, this.barrier1) &&
-            !this.checkCollision(this.player, this.barrier2)) {
+            !this.checkCollision(this.player, this.barrier2) &&
+            !this.checkCollision(this.player, this.barrier3)) {
             this.player.x -= 1;
             this.isMoving = true;
+            this.soundBool = false;
         }
             // Stop run animation when player is vomiting
         if (this.isVomiting == true) {
@@ -260,6 +271,9 @@ class Play extends Phaser.Scene {
         drink.alpha = 0;
         drink.x += 300;
         game.settings.globalSpeed += 1;
+        if (game.settings.startPositionBuffer < 400) {
+            game.settings.startPositionBuffer += 50;
+        }
     }
 
     // Player scoring
@@ -269,29 +283,6 @@ class Play extends Phaser.Scene {
             this.soundBool = true;
         }
         if (this.weight > 0) {
-            // Player vomit animation
-            /*
-            this.isMoving = false;
-            this.vomitAnimOn == true;
-            console.log("does it get in here");
-            if (this.isMoving == false && this.vomitAnimOn == true) {
-                this.vomitAnimOn = false;
-                this.player.anims.stop('run');
-                this.player.anims.play('vomit');
-            }
-            */
-            /*
-            if (this.vomitBool == false) {
-                this.vomitBool = true;
-                player.alpha = 0;    
-                let vomit = this.add.sprite(player.x, player.y, 'vomitanim').setOrigin(0, 0);         
-                vomit.on('animationcomplete', () => {  
-                    vomit.anims.play('vomit');
-                    player.alpha = 1;        
-                    vomit.destroy(); 
-                });
-            }
-            */
             // Score manipulation
             if (this.isPointTimer == false) {
                 this.isPointTimer = true;
@@ -300,6 +291,9 @@ class Play extends Phaser.Scene {
                     this.isPointTimer = false;
                     this.weight--;
                     this.beerCount.text = "Beers: " + this.weight;
+                    if (game.settings.startPositionBuffer >= 50) {
+                        game.settings.startPositionBuffer -= 50;
+                    }
                     this.points++;
                     game.settings.globalSpeed -= 1;
                     this.score.text = "Score: " + this.points;

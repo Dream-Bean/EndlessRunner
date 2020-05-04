@@ -19,6 +19,7 @@ game.settings = {
     // weight: 0,
     highScore: 0,
     globalSpeed: 6,
+    startPositionBuffer: 0,
 };
 
 // reserve keyboard variables
