@@ -12,7 +12,7 @@ class Play extends Phaser.Scene {
         this.load.image('botbg', './assets/street.png');
         this.load.image('topbg', './assets/finalsw.png');
         this.load.spritesheet('runanim', './assets/run_final_empty.png', {frameWidth: 74, frameHeight: 66, startFrame: 0, endFrame: 8});
-        this.load.spritesheet('vomitanim', './assets/vomit_empty.png', { frameWidth: 45, frameHeight: 53, startFrame: 0, endFrame: 2});
+        this.load.spritesheet('vomitanim', './assets/vomit_empty.png', { frameWidth: 45, frameHeight: 53, startFrame: 0, endFrame: 6});
         this.load.audio('cheersfx', './assets/cheers.mp3');
         this.load.audio('bgmusic', './assets/bglofi.mp3');
         this.load.audio('scoresfx', './assets/cashin.mp3');
@@ -46,8 +46,8 @@ class Play extends Phaser.Scene {
         });
         this.anims.create({ //use from same sprite at a later point.
             key: 'vomit',
-            frames: this.anims.generateFrameNumbers('vomitanim', { start: 0, end: 1, first: 0 }),
-            frameRate: 3,
+            frames: this.anims.generateFrameNumbers('vomitanim', { start: 0, end: 5, first: 0 }),
+            frameRate: 12,
         })
 
         // Add checkpoint
@@ -178,7 +178,37 @@ class Play extends Phaser.Scene {
             this.isVomiting = true;
         } else {
             this.isVomiting = false;
+        } 
+        // Stacking prevention for objects - beer
+        if (this.checkCollision(this.beer, this.barrier0)) {
+            this.beer.x -= 160;
         }
+        if (this.checkCollision(this.beer, this.barrier1)) {
+            this.beer.x -= 160;
+        }
+        if (this.checkCollision(this.beer, this.barrier2)) {
+            this.beer.x -= 160;
+        }
+        if (this.checkCollision(this.beer, this.barrier3)) {
+            this.beer.x -= 160;
+        }
+        // Stacking prevention for objects - manhole
+        if (this.checkCollision(this.manhole, this.barrier0)) {
+            this.manhole.x -= 160;
+        }
+        if (this.checkCollision(this.manhole, this.barrier1)) {
+            this.manhole.x -= 160;
+        }
+        if (this.checkCollision(this.manhole, this.barrier2)) {
+            this.manhole.x -= 160;
+        }
+        if (this.checkCollision(this.manhole, this.barrier3)) {
+            this.manhole.x -= 160;
+        }
+
+
+
+
 
         // Update objects
         if (this.gameOver) {

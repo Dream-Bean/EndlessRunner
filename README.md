@@ -77,3 +77,7 @@ Commit #14:
     update? Maybe not, either way its chill. Touch up the
     tutorial and make a collision bumper to space objects for
     the next and last commit.
+
+Commit #15:
+    Game is done. Any fine tuning will be to animations and/or
+    menu/tutorial scenes.
