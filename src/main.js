@@ -22,4 +22,4 @@ game.settings = {
 };
 
 // reserve keyboard variables
-let keyUP, keyLEFT, keyRIGHT, keyDOWN, keyF, keyT, keyM , keyP, keyR;
+let keyUP, keyLEFT, keyRIGHT, keyDOWN, keyF, keyT, keyM, keyR;
