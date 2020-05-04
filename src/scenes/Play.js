@@ -100,7 +100,7 @@ class Play extends Phaser.Scene {
         // Displays
         this.highScore = this.add.text(5, 5, "High Score: " + game.settings.highScore, this.playConfig);
         this.score = this.add.text(5, 35, "Score: 0", this.playConfig);
-        this.beerCount = this.add.text(1140, 5, "Beers: 0", this.playConfig);
+        this.beerCount = this.add.text(5, 65, "Beers: 0", this.playConfig);
         // Borders
         this.add.rectangle(0, 0, 1280, 5, 0x000000).setOrigin(0, 0); // left
         this.add.rectangle(0, 715, 1280, 5, 0x000000).setOrigin(0, 0); // bottom
@@ -207,10 +207,6 @@ class Play extends Phaser.Scene {
             this.manhole.x -= 160;
         }
 
-
-
-
-
         // Update objects
         if (this.gameOver) {
             this.player.x = 100000000;
@@ -266,7 +262,9 @@ class Play extends Phaser.Scene {
             if (this.isMoving == false && this.moveAnimOn == true) {
                 this.moveAnimOn = false;
                 this.player.anims.stop('run')
-                this.player.anims.play('vomit');
+                if (this.weight >= 1) {
+                    this.player.anims.play('vomit');
+                }
             }
         }
     }
@@ -309,28 +307,28 @@ class Play extends Phaser.Scene {
 
     // Player scoring
     playerVomit(player) { //take out player maybe
-        if (this.soundBool == false) {
-            this.sound.play('scoresfx');
-            this.soundBool = true;
-        }
         if (this.weight > 0) {
             // Score manipulation
             if (this.isPointTimer == false) {
                 this.isPointTimer = true;
                 // Timer to turn unload beers 1 by 1
                 this.pointTimer = this.time.delayedCall(250, () => {
+                    this.soundBool = false;
                     this.isPointTimer = false;
                     this.weight--;
                     this.beerCount.text = "Beers: " + this.weight;
                     if (game.settings.startPositionBuffer >= 50) {
                         game.settings.startPositionBuffer -= 50;
                     }
-                    this.points++;
+                    this.points += 100;
                     game.settings.globalSpeed -= 1;
                     this.score.text = "Score: " + this.points;
                 }, null, this);
             }
-
+            if (this.soundBool == false) {
+                this.sound.play('scoresfx');
+                this.soundBool = true;
+            }
         }
     }
 }
