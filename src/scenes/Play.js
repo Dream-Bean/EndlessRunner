@@ -296,6 +296,7 @@ class Play extends Phaser.Scene {
     playerDrink(drink) {
         this.sound.play('cheersfx');
         this.weight++;
+        console.log(this.weight);
         this.beerCount.text = "Beers: " + this.weight;
         drink.alpha = 0;
         drink.x += 300;

@@ -1,5 +1,15 @@
-# EndlessRunner
+Game Name: Bar[F]
 By: Alexander Shaham, Brandon Leoung, Terence So
+Date Completed: 5/3/2020
+Creative Tilt: 
+    "Our design attempted to turn a typical endless runner (in which you dodge obstacles and collect items to increase your score) into a dynamic balancing act where player choices modify the difficulty in real time.
+
+    Collectibles do not immediately increase score; instead, they have to be cashed in at certain intervals. Each collectible held increases the game speed until cashed in, therefore increasing the game difficulty. The action of cashing in collectibles for points is also features risk/reward because you are immobile while doing so, which puts you closer to the edge of the screen (which makes you lose).
+
+    We use royalty free sounds/music. I am particularly proud of how the vomit system works. The score increments slowly and plays a sound for every time you turn in a beer by vomiting into the manhole. Also with how it uses the animations. The code definitely surpasses that of the class examples, and required new/creative knowledge to execute. I used the rocket patrol mods as a basis for the code, so I have to give
+    some credit to Professor Nathan Altice.
+
+    Our game also has pretty good pixel art and animations. :)"
 
 Commit #1:
     Created the basics for everything. Expand on runner controls,
