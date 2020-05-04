@@ -15,8 +15,7 @@ let game = new Phaser.Game(config);
 
 // define game settings
 game.settings = {
-    killZone: 1160,             // far right of screen
-    // weight: 0,
+    killZone: 1160,
     highScore: 0,
     globalSpeed: 6,
     startPositionBuffer: 0,
