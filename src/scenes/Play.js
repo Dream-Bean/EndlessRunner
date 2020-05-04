@@ -12,7 +12,7 @@ class Play extends Phaser.Scene {
         this.load.image('botbg', './assets/street.png');
         this.load.image('topbg', './assets/finalsw.png');
         this.load.spritesheet('runanim', './assets/run_final_empty.png', {frameWidth: 74, frameHeight: 66, startFrame: 0, endFrame: 8});
-        this.load.spritesheet('vomitanim', './assets/vomit_empty.png', { frameWidth: 45, frameHeight: 53, startFrame: 0, endFrame: 6});
+        this.load.spritesheet('vomitanim', './assets/vomit_empty.png', { frameWidth: 45, frameHeight: 59, startFrame: 0, endFrame: 6});
         this.load.audio('cheersfx', './assets/cheers.mp3');
         this.load.audio('bgmusic', './assets/bglofi.mp3');
         this.load.audio('scoresfx', './assets/cashin.mp3');
