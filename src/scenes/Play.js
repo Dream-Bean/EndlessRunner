@@ -48,6 +48,7 @@ class Play extends Phaser.Scene {
             key: 'vomit',
             frames: this.anims.generateFrameNumbers('vomitanim', { start: 0, end: 5, first: 0 }),
             frameRate: 12,
+            repeat: -1,
         })
 
         // Add checkpoint

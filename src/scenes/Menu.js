@@ -32,7 +32,7 @@ class Menu extends Phaser.Scene {
         // show menu text
         let centerX = game.config.width / 2;
         let centerY = game.config.height / 2;
-        this.add.text(centerX, centerY - 200, ' Salary Man ', menuConfig).setScale(1.5, 1.5).setOrigin(0.5);
+        this.add.text(centerX, centerY - 200, ' Bar[F] ', menuConfig).setScale(1.5, 1.5).setOrigin(0.5);
         this.add.text(centerX, centerY, ' ~ Press P To Play ~ ', menuConfig).setOrigin(0.5);
         this.add.text(centerX, centerY + 35, ' ~ Press T For Tutorial ~ ', menuConfig).setOrigin(0.5);
 
