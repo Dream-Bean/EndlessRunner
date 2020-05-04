@@ -34,7 +34,7 @@ class Play extends Phaser.Scene {
 
         // Play music
         this.music = this.sound.add('bgmusic');
-        this.music.play();
+        this.music.play({ volume: 0.1, loop: -1 });
 
         // Player animations
         this.anims.create({
@@ -75,7 +75,6 @@ class Play extends Phaser.Scene {
         this.isMoving = true;
         this.moveAnimOn = true;
         this.soundBool = false;
-        //this.vomitBool = false; //probably delete all instaces of this
         // Score 
         this.weight = 0;
         this.points = 0;
@@ -294,9 +293,8 @@ class Play extends Phaser.Scene {
 
     // Player-drink reaction
     playerDrink(drink) {
-        this.sound.play('cheersfx');
+        this.sound.play('cheersfx', { volume: 0.2 });
         this.weight++;
-        console.log(this.weight);
         this.beerCount.text = "Beers: " + this.weight;
         drink.alpha = 0;
         drink.x += 300;
@@ -327,7 +325,7 @@ class Play extends Phaser.Scene {
                 }, null, this);
             }
             if (this.soundBool == false) {
-                this.sound.play('scoresfx');
+                this.sound.play('scoresfx', { volume: 0.2 });
                 this.soundBool = true;
             }
         }
