@@ -24,11 +24,9 @@ class Menu extends Phaser.Scene {
             key: 'gamelogo',
             frames: this.anims.generateFrameNumbers('gamelogo', { start: 0, end: 1, first: 0 }),
             frameRate: 5,
-            setScale: 1,
             repeat: -1,
         });
-        console.log("w0t");
-        this.logo = new Player(this, game.config.width / 2, game.config.height / 2 - 50, 'gamelogo').setScale(2.5, 2.5).setOrigin(0.5); // bootleg way to do it...
+        this.logo = new Player(this, game.config.width / 2, game.config.height / 2 - 100, 'gamelogo').setScale(4, 4).setOrigin(0.5); // bootleg way to do it...
         this.logo.anims.play('gamelogo')
 
         // text display

@@ -41,7 +41,6 @@ class Play extends Phaser.Scene {
             key: 'run',
             frames: this.anims.generateFrameNumbers('runanim', {start: 0, end: 7, first: 0}),
             frameRate: 10,
-            setScale: 4,
             repeat: -1,
         });
         this.anims.create({ //use from same sprite at a later point.
