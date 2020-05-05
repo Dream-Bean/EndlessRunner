@@ -47,7 +47,7 @@ class Menu extends Phaser.Scene {
         let centerY = game.config.height / 2;
         this.add.text(centerX, centerY + 110, 'Press F To Play', menuConfig).setScale(2).setOrigin(0.5);
         this.add.text(centerX, centerY + 160, 'Press T For Tutorial', menuConfig).setOrigin(0.5);
-        this.add.text(centerX, centerY + 300, 'By: Alexander Shaham, Terence So, Brandon Leung', menuConfig).setOrigin(0.5);
+        this.add.text(centerX, centerY + 340, 'By: Alexander Shaham, Terence So, Brandon Leung', menuConfig).setScale(0.5).setOrigin(0.5);
 
         // define keys
         keyF = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.F);
